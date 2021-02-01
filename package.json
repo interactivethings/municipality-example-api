@@ -9,5 +9,8 @@
   "dependencies": {
     "cors": "^2.8.5",
     "rdf-cube-view-query": "^0.1.1"
+  },
+  "devDependencies": {
+    "@vercel/node": "^1.9.0"
   }
 }
