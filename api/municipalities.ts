@@ -1,11 +1,9 @@
-const {
-  Source
-} = require("rdf-cube-view-query");
+import { getSource } from "../src/api";
+
+const { Source } = require("rdf-cube-view-query") as any;
 
 const getMunicipalies = async ({ name, limit, source }) => {
-  const iri = `https://register.ld.admin.ch/municipality/${id}`;
-
-  const sparql = `{
+  const sparql = `
     SELECT DISTINCT ("municipality" AS ?type) (?municipality AS ?iri) (?municipalityLabel AS ?name) WHERE {
       GRAPH <https://lindas.admin.ch/fso/agvch> {
         VALUES ?class { <https://schema.ld.admin.ch/Municipality> <https://schema.ld.admin.ch/AbolishedMunicipality> }
@@ -14,29 +12,29 @@ const getMunicipalies = async ({ name, limit, source }) => {
       }
       FILTER (regex(?municipalityLabel, ".*${name}.*", "i"))
     } LIMIT ${limit}
-  }`;
+  `;
 
   const results = await source.client.query.select(sparql);
+
+  console.log(sparql);
 
   return results.length > 0
     ? {
         municipalities: results.map((r) => {
-          return { id, name: r.name.value };
+          return { name: r.name.value };
         }),
       }
     : null;
 };
 
-module.exports = (req, res) => {
-  const source = new Source({
-    endpointUrl:
-      process.env.SPARQL_ENDPOINT ?? "https://test.lindas.admin.ch/query",
-    // user: '',
-    // password: ''
+module.exports = async (req, res) => {
+  const source = getSource();
+
+  const municipalities = await getMunicipalies({
+    name: req.query.name,
+    limit: 100,
+    source,
   });
-
-  const municipalities = await getMunicipalies({name: req.query.name, limit: 100, source});
-
 
   res.json(municipalities);
 };

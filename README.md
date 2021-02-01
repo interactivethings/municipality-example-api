@@ -1,0 +1,3 @@
+```
+npx vercel dev
+```

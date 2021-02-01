@@ -1,6 +1,4 @@
-const {
-  Source
-} = require("rdf-cube-view-query");
+import { getSource } from "../src/api";
 
 const getMunicipality = async ({ id, source }) => {
   const iri = `https://register.ld.admin.ch/municipality/${id}`;
@@ -16,20 +14,10 @@ SELECT DISTINCT ?name {
   return result ? { id, name: result.name.value } : null;
 };
 
+module.exports = async (req, res) => {
+  const source = getSource();
 
-module.exports = (req, res) => {
-
-  const source = new Source({
-    endpointUrl:
-      process.env.SPARQL_ENDPOINT ?? "https://test.lindas.admin.ch/query",
-    // user: '',
-    // password: ''
-  });
-
-
-  const municipality = await getMunicipality({id: req.query.id, source});
-
-
+  const municipality = await getMunicipality({ id: req.query.id, source });
 
   res.json(municipality);
 };
