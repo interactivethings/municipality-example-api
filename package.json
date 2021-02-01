@@ -1,0 +1,13 @@
+{
+  "name": "municipality-example-api",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:interactivethings/municipality-example-api.git",
+  "author": "Jeremy Stucki <jeremy@interactivethings.com>",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "cors": "^2.8.5",
+    "rdf-cube-view-query": "^0.1.1"
+  }
+}
