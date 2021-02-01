@@ -1,6 +1,6 @@
-import {
+const {
   Source
-} from "rdf-cube-view-query";
+} = require("rdf-cube-view-query");
 
 const getMunicipalies = async ({ name, limit, source }) => {
   const iri = `https://register.ld.admin.ch/municipality/${id}`;
