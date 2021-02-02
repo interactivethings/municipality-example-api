@@ -7,7 +7,6 @@
   "license": "MIT",
   "private": true,
   "dependencies": {
-    "cors": "^2.8.5",
     "rdf-cube-view-query": "^0.1.1"
   },
   "devDependencies": {
