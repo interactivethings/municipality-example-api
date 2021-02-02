@@ -41,11 +41,14 @@ module.exports = async (req: NowRequest, res: NowResponse) => {
 
   const source = getSource();
 
-  const municipalities = await getMunicipalies({
-    name: req.query.name,
-    limit: 100,
-    source,
-  });
+  const municipalities =
+    req.query.name !== ""
+      ? await getMunicipalies({
+          name: req.query.name,
+          limit: 100,
+          source,
+        })
+      : { municipalities: [] };
 
   res.json(municipalities);
 };
