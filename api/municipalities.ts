@@ -33,7 +33,7 @@ const getMunicipalies = async ({ name, limit, source }) => {
 };
 
 module.exports = async (req: NowRequest, res: NowResponse) => {
-  if (!req.query.name) {
+  if (req.query.name === undefined) {
     return res
       .status(400)
       .json({ message: "Please provide a `name` parameter" });
