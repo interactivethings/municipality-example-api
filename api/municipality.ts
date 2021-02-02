@@ -16,7 +16,7 @@ SELECT DISTINCT ?name {
 };
 
 module.exports = async (req: NowRequest, res: NowResponse) => {
-  if (!req.query.id) {
+  if (req.query.id === undefined) {
     return res.status(400).json({ message: "Please provide a `id` parameter" });
   }
 
