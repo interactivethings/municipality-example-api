@@ -1,11 +1,12 @@
+import { SELECT } from "@tpluscode/sparql-builder";
 import { NowRequest, NowResponse } from "@vercel/node";
 import { getSource } from "../src/api";
 
 const { Source } = require("rdf-cube-view-query") as any;
 
 const getMunicipalies = async ({ name, limit, source }) => {
-  const sparql = `
-    SELECT DISTINCT ("municipality" AS ?type) (?municipality AS ?iri) (?municipalityLabel AS ?name) WHERE {
+  const sparql = SELECT.DISTINCT`
+    ("municipality" AS ?type) (?municipality AS ?iri) (?municipalityLabel AS ?name) WHERE {
       GRAPH <https://lindas.admin.ch/fso/agvch> {
         VALUES ?class { <https://schema.ld.admin.ch/Municipality> <https://schema.ld.admin.ch/AbolishedMunicipality> }
         ?municipality a ?class .
@@ -13,7 +14,7 @@ const getMunicipalies = async ({ name, limit, source }) => {
       }
       FILTER (regex(?municipalityLabel, ".*${name}.*", "i"))
     } LIMIT ${limit}
-  `;
+  `.build();
 
   const results = await source.client.query.select(sparql);
 

@@ -1,14 +1,15 @@
+import { SELECT } from "@tpluscode/sparql-builder";
 import { NowRequest, NowResponse } from "@vercel/node";
 import { getSource } from "../src/api";
 
 const getMunicipality = async ({ id, source }) => {
   const iri = `https://register.ld.admin.ch/municipality/${id}`;
 
-  const sparql = `
-SELECT DISTINCT ?name {
+  const sparql = SELECT.DISTINCT`
+?name {
   <${iri}> <http://schema.org/name> ?name.
 }
-  `;
+  `.build();
 
   const result = (await source.client.query.select(sparql))[0];
 
