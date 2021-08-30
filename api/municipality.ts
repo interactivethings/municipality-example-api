@@ -3,13 +3,12 @@ import { NowRequest, NowResponse } from "@vercel/node";
 import { getSource } from "../src/api";
 
 const getMunicipality = async ({ id, source }) => {
-  const iri = `https://register.ld.admin.ch/municipality/${id}`;
+  const iri = `https://ld.admin.ch/municipality/${id}`;
 
-  const sparql = SELECT.DISTINCT`
-?name {
-  <${iri}> <http://schema.org/name> ?name.
-}
-  `.build();
+  const sparql = SELECT.DISTINCT`?name`
+    .WHERE`<${iri}> <http://schema.org/name> ?name.`.build();
+
+  console.log(sparql);
 
   const result = (await source.client.query.select(sparql))[0];
 
