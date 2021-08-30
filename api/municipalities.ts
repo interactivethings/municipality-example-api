@@ -23,10 +23,7 @@ const getMunicipalies = async ({ name, limit, source }) => {
   return {
     municipalities: results.map((r) => {
       return {
-        id: r.iri.value.replace(
-          "https://register.ld.admin.ch/municipality/",
-          ""
-        ),
+        id: r.iri.value.replace("https://ld.admin.ch/municipality/", ""),
         name: r.name.value,
       };
     }),
